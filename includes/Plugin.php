@@ -48,8 +48,12 @@ class Plugin {
 	private function init(): void {
 		$this->load_textdomain();
 
-		// Phase 2+ components will be registered here.
-		// e.g. new Sync\SyncManager();
+		// Phase 2 — Sync engine.
+		new Sync\SyncManager();
+
+		// Phase 3 — Hook integrations registered here.
+		// Phase 4 — LogRepository registered here.
+		// Phase 5 — Admin\NetworkPanel registered here.
 	}
 
 	/**
