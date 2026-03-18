@@ -39,7 +39,7 @@ class Plugin {
 	 *
 	 * Components are added here as each build phase is completed:
 	 *   Phase 2 → SyncManager
-	 *   Phase 3 → Hook integrations
+	 *   Phase 3 → HookManager
 	 *   Phase 4 → LogRepository
 	 *   Phase 5 → Admin\NetworkPanel
 	 *   Phase 6 → Admin\LogTable
@@ -49,9 +49,11 @@ class Plugin {
 		$this->load_textdomain();
 
 		// Phase 2 — Sync engine.
-		new Sync\SyncManager();
+		$sync_manager = new Sync\SyncManager();
 
-		// Phase 3 — Hook integrations registered here.
+		// Phase 3 — Hook integrations.
+		new Sync\HookManager( $sync_manager );
+
 		// Phase 4 — LogRepository registered here.
 		// Phase 5 — Admin\NetworkPanel registered here.
 	}
