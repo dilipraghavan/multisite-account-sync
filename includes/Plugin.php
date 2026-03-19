@@ -17,30 +17,22 @@ class Plugin {
 	/** @var Plugin|null Singleton instance. */
 	private static ?Plugin $instance = null;
 
-	/**
-	 * Get or create the singleton instance.
-	 */
 	public static function get_instance(): self {
 		if ( null === self::$instance ) {
 			self::$instance = new self();
 			self::$instance->init();
 		}
-
 		return self::$instance;
 	}
 
-	/**
-	 * Private constructor — use get_instance().
-	 */
 	private function __construct() {}
 
 	/**
 	 * Initialise all plugin components.
 	 *
-	 * Components are added here as each build phase is completed:
 	 *   Phase 2 → SyncManager
 	 *   Phase 3 → HookManager
-	 *   Phase 4 → LogRepository
+	 *   Phase 4 → LogRepository + SyncLogger
 	 *   Phase 5 → Admin\NetworkPanel
 	 *   Phase 6 → Admin\LogTable
 	 *   Phase 7 → Sync\Scheduler
@@ -54,13 +46,13 @@ class Plugin {
 		// Phase 3 — Hook integrations.
 		new Sync\HookManager( $sync_manager );
 
-		// Phase 4 — LogRepository registered here.
+		// Phase 4 — Audit logging.
+		$log_repository = new Logs\LogRepository();
+		new Logs\SyncLogger( $log_repository );
+
 		// Phase 5 — Admin\NetworkPanel registered here.
 	}
 
-	/**
-	 * Load plugin translations.
-	 */
 	private function load_textdomain(): void {
 		load_plugin_textdomain(
 			'mcas',
