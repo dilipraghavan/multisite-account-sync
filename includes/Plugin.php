@@ -3,7 +3,6 @@
  * Core Plugin class.
  *
  * Singleton that initialises all service components.
- * Each phase wires in its own manager/service here.
  *
  * @package MCAS
  */
@@ -50,7 +49,8 @@ class Plugin {
 		$log_repository = new Logs\LogRepository();
 		new Logs\SyncLogger( $log_repository );
 
-		// Phase 5 — Admin\NetworkPanel registered here.
+		// Phase 5 — Network Admin Panel.
+		new Admin\NetworkPanel( $log_repository, $sync_manager );
 	}
 
 	private function load_textdomain(): void {
