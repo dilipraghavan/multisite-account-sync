@@ -33,7 +33,7 @@ class Plugin {
 	 *   Phase 3 → HookManager
 	 *   Phase 4 → LogRepository + SyncLogger
 	 *   Phase 5 → Admin\NetworkPanel
-	 *   Phase 6 → Admin\LogTable
+	 *   Phase 6 → Admin\LogPage + Admin\LogTable
 	 *   Phase 7 → Sync\Scheduler
 	 */
 	private function init(): void {
@@ -51,6 +51,9 @@ class Plugin {
 
 		// Phase 5 — Network Admin Panel.
 		new Admin\NetworkPanel( $log_repository, $sync_manager );
+
+		// Phase 6 — Sync Log page with WP_List_Table.
+		new Admin\LogPage( $log_repository );
 	}
 
 	private function load_textdomain(): void {
