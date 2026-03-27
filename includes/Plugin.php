@@ -54,6 +54,9 @@ class Plugin {
 
 		// Phase 6 — Sync Log page with WP_List_Table.
 		new Admin\LogPage( $log_repository );
+
+		// Phase 7 — Scheduled background sync.
+		new Sync\Scheduler( $sync_manager );
 	}
 
 	private function load_textdomain(): void {

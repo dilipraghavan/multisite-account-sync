@@ -163,3 +163,42 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 
 </div><!-- .mcas-wrap -->
+
+<?php
+// Append cron status section — included at bottom of template.
+$last_run  = \MCAS\Sync\Scheduler::get_last_run();
+$next_run  = \MCAS\Sync\Scheduler::get_next_run();
+?>
+<div class="mcas-card mcas-card-full">
+	<h2><?php esc_html_e( 'Scheduled Sync', 'mcas' ); ?></h2>
+	<table class="widefat striped" style="max-width:600px;">
+		<tbody>
+			<tr>
+				<td><strong><?php esc_html_e( 'Next Run', 'mcas' ); ?></strong></td>
+				<td>
+					<?php if ( $next_run ) : ?>
+						<?php echo esc_html( human_time_diff( time(), $next_run ) . ' from now' ); ?>
+						<small>(<?php echo esc_html( date_i18n( 'Y-m-d H:i:s', $next_run ) ); ?>)</small>
+					<?php else : ?>
+						<span style="color:#d63638"><?php esc_html_e( 'Not scheduled', 'mcas' ); ?></span>
+					<?php endif; ?>
+				</td>
+			</tr>
+			<tr>
+				<td><strong><?php esc_html_e( 'Last Run', 'mcas' ); ?></strong></td>
+				<td>
+					<?php if ( $last_run ) : ?>
+						<?php echo esc_html( human_time_diff( $last_run['timestamp'], time() ) . ' ago' ); ?>
+						— <?php printf( esc_html__( '%d success, %d failed, %d total', 'mcas' ), $last_run['success'], $last_run['failed'], $last_run['total'] ); ?>
+					<?php else : ?>
+						<?php esc_html_e( 'Never run yet.', 'mcas' ); ?>
+					<?php endif; ?>
+				</td>
+			</tr>
+			<tr>
+				<td><strong><?php esc_html_e( 'Interval', 'mcas' ); ?></strong></td>
+				<td><?php esc_html_e( 'Every 6 hours', 'mcas' ); ?></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
