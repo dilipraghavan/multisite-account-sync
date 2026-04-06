@@ -17,6 +17,18 @@ use MCAS\Sync\SyncResult;
 class LogRepository {
 
 	/**
+	 * Create the log table for the current blog context if it doesn't exist.
+	 * Handles subsites that were created after plugin activation.
+	 */
+	private function maybe_create_table(): void {
+		global $wpdb;
+		$table = $wpdb->prefix . MCAS_TABLE_LOG;
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$table}'" ) !== $table ) {
+			\MCAS\Activator::create_table();
+		}
+	}
+
+	/**
 	 * Insert a single SyncResult into the log table.
 	 *
 	 * @param SyncResult $result
@@ -24,6 +36,7 @@ class LogRepository {
 	 * @return int|false Inserted row ID or false on failure.
 	 */
 	public function insert( SyncResult $result ): int|false {
+		$this->maybe_create_table();
 		global $wpdb;
 
 		$inserted = $wpdb->insert(
