@@ -32,18 +32,25 @@ A WordPress multisite plugin that automatically synchronizes user accounts, role
 
 ### Setup
 
-1. **Clone the repository** into your WordPress plugins directory:
+**Option A — Download the release zip (recommended):**
 
+1. Download the latest `multisite-account-sync.zip` from [Releases](https://github.com/dilipraghavan/multisite-account-sync/releases)
+2. Go to **Network Admin → Plugins → Add New → Upload Plugin**
+3. Upload the zip and click **Network Activate**
+
+**Option B — Clone the repository:**
+
+1. Clone into your WordPress plugins directory:
 ```bash
 git clone https://github.com/dilipraghavan/multisite-account-sync.git
 ```
 
-2. **Network Activate** the plugin from **Network Admin → Plugins**. Do not activate it per-site — it must be network activated to function correctly.
+2. Go to **Network Admin → Plugins** and click **Network Activate**
 
-3. **Verify the database table** was created. The plugin creates `wp_mcas_sync_log` on every subsite automatically during network activation.
+### After Activation
 
-4. **Confirm the cron job** is scheduled:
-
+- The plugin creates `wp_mcas_sync_log` on every subsite automatically
+- Confirm the cron job is scheduled:
 ```bash
 wp cron event list | grep mcas
 ```
